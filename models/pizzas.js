@@ -1,19 +1,39 @@
-const connectDB = require("../config/db");
+// models/pizzas.js
+import { getDB } from "../config/db.js";
 
 async function getCollection() {
-  const db = await connectDB();
+  const db = getDB();
   return db.collection("pizzas");
 }
 
-async function crearPizza(pizza) {
+export async function crearPizza(pizza) {
   const col = await getCollection();
   const result = await col.insertOne(pizza);
   return result.insertedId;
 }
 
-async function listarPizzas() {
+export async function listarPizzas() {
   const col = await getCollection();
   return await col.find().toArray();
 }
 
-module.exports = { crearPizza, listarPizzas };
+export async function promedioPreciosPorCategoria() {
+  const col = await getCollection();
+  const pipeline = [
+    {
+      $group: {
+        _id: "$categoria",
+        precioPromedio: { $avg: "$precio" },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        categoria: "$_id",
+        precioPromedio: { $round: ["$precioPromedio", 2] },
+      },
+    },
+    { $sort: { categoria: 1 } },
+  ];
+  return await col.aggregate(pipeline).toArray();
+}

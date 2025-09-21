@@ -3,18 +3,18 @@
   "version": "1.0.0",
   "description": "sistema gestion pedidos",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "start": "node index.js"
-    
   },
   "repository": {
-    "type": "module",
+    "type": "git",
     "url": "git+https://github.com/michelrodriguez05/pizza-punto.git"
   },
   "keywords": [
     "pizza",
     "pedidos",
-    "mongodn",
+    "mongodb",
     "gestion"
   ],
   "author": "michel rodriguez",
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/michelrodriguez05/pizza-punto#readme",
   "dependencies": {
+    "dotenv": "^17.2.2",
     "inquirer": "^8.2.7",
     "mongodb": "^6.20.0"
   }

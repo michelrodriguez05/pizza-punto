@@ -1,19 +1,17 @@
-const connectDB = require("../config/db");
+import { getDB } from "../config/db.js";
 
 async function getCollection() {
-  const db = await connectDB();
+  const db = getDB();
   return db.collection("clientes");
 }
 
-async function crearCliente(cliente) {
+export async function crearCliente(cliente) {
   const col = await getCollection();
   const result = await col.insertOne(cliente);
   return result.insertedId;
 }
 
-async function listarClientes() {
+export async function listarClientes() {
   const col = await getCollection();
   return await col.find().toArray();
 }
-
-module.exports = { crearCliente, listarClientes };
